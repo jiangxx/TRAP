@@ -22,13 +22,13 @@ public class FormDB
 	//private Map<Integer, TravelFormMetadata> fidDescription = new HashMap<Integer, TravelFormMetadata>();
 	
 	//HashMap<key:userId, value: Map<formId, description>>
-	public Map<String, Map<Integer, TravelFormMetadata>> uidDescription = new HashMap<String, Map<Integer, TravelFormMetadata>>();                                             //////
+	public static Map<String, Map<Integer, TravelFormMetadata>> uidDescription = new HashMap<String, Map<Integer, TravelFormMetadata>>();                                             //////
 	
 	// HashMap<key:formId, value: formMap>
 	//private Map<Integer, Map<String, String>> fidMap = new HashMap<Integer, Map<String, String>>();
 	
 	// HashMap<Key: username, value: fidMap>
-	public Map<String, Map<Integer, Map<String, String>>> uidMap = new HashMap<String, Map<Integer, Map<String, String>>>();   /////
+	public static Map<String, Map<Integer, Map<String, String>>> uidMap = new HashMap<String, Map<Integer, Map<String, String>>>();   /////
 	
 	/**
 	 * Constructor. Sets up the object.
@@ -38,13 +38,13 @@ public class FormDB
 
 	}
 
-	public void clearsavedform() throws java.lang.Exception 
+	public static void clearsavedform() throws java.lang.Exception 
 	{
 		uidDescription.clear();
 		uidMap.clear();
 	}
 
-	public Map<String, String> getsavedformdata(Integer formId) 
+	public static Map<String, String> getsavedformdata(Integer formId) 
 	{				
 		Map<String, String> formData = new HashMap<String, String>();
 		Map<Integer, Map<String, String>> fidMap = new HashMap<Integer, Map<String, String>>();
@@ -70,7 +70,7 @@ public class FormDB
 
 	}
 
-	public Map<String, String> getcompletedform(Integer formId) 
+	public static Map<String, String> getcompletedform(Integer formId) 
 	{
 		Map<String, String> completeForm = new HashMap<String, String>();
 		Map<Integer, Map<String, String>> fidMap = new HashMap<Integer, Map<String, String>>();
@@ -95,14 +95,14 @@ public class FormDB
 	    }
 	}
 
-	public Map<Integer, TravelFormMetadata> getsavedform() 
+	public static Map<Integer, TravelFormMetadata> getsavedform() 
 	{
 		Map<Integer, TravelFormMetadata> formlist = new HashMap<Integer, TravelFormMetadata>();
 		formlist.putAll(uidDescription.get(currentUser));
 		return formlist;
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public Integer saveformdata(Map<String, String> formData, String description) 
+	public static Integer saveformdata(Map<String, String> formData, String description) 
 	{
 		Integer formId = genfid;				
 		// Creat Map of detailed form data
@@ -151,7 +151,7 @@ public class FormDB
 		return formId;
 	}
 
-	public Integer overwriteformdata(Map<String, String> formData, Integer id) 
+	public static Integer overwriteformdata(Map<String, String> formData, Integer id) 
 	{
 		boolean c = false;
 	    Iterator<Entry<String, Map<Integer, TravelFormMetadata>>> iter = uidDescription.entrySet().iterator();
@@ -178,7 +178,7 @@ public class FormDB
 		return formId;
 	}
 		
-	public Integer savecompletedform(Map<String, String> formData) 
+	public static Integer savecompletedform(Map<String, String> formData) 
 	{
 		Integer formId = genfid;				
 	    Map<String, String> formMap = new HashMap<String, String>();
