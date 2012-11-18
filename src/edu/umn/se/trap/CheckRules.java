@@ -1,5 +1,7 @@
 package edu.umn.se.trap;
 import edu.umn.se.trap.CheckRuleDODFund;
+import edu.umn.se.trap.CheckRulePerDiem;
+import edu.umn.se.trap.CheckRuleTotalAmount;
 
 public class CheckRules {
 	private CheckRuleFederalProjectFund checkrulefederalprojectfund;
@@ -17,6 +19,7 @@ public class CheckRules {
 	checkruleforeigngovernmentgrant.checkRuleForeignGovermentGrant();
 	checkruleotherexpense.checkRuleOtherExpense();
 	checkruleNIHfund.checkRuleNIHFund();
-	checkruleperdiem.checkRulePerDiem();
+	checkruleperdiem.checkIncidentalPerDiem();
+	checkruleperdiem.checkLodgingPerDiem();
 	checkruletotalamount.checkRuleTotalAmount();
 }
