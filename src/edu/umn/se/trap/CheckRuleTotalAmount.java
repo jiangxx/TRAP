@@ -7,25 +7,29 @@ import edu.umn.se.trap.db.KeyNotFoundException;
 import edu.umn.se.trap.db.GrantDB;
 import edu.umn.se.trap.db.GrantDB.GRANT_FIELDS;
 
-public class CheckRuleTotalAmount {
+public class CheckRuleTotalAmount 
+{
 	private TravelFormProcessorIntf intf;
 	private Map<String, String> formData;
 	private List<Object> grantInfo;
 	private GrantDB grantDB;
 	
-	public void checkRuleTotalAmount(Integer formId) throws Exception{
+	public void checkRuleTotalAmount(Integer formId) throws Exception
+	{
 		int i = 0;
 		formData = intf.getSavedFormData(formId);
-		for(i=0;i<formData.get(NUM_GRANTS);i++) {
+		for(i=0;i<formData.get(NUM_GRANTS);i++) 
+		{
 			grantInfo = grantDB.getGrantInfo(formData.get(GRANT_ACCOUNT));
-			if(grantInfo.contains(formData.get(USER_NAME)==false)){
+			if(grantInfo.contains(formData.get(USER_NAME)==false))
+			{
 				throw new KeyNotFoundException("User " + formData.get(USER_NAME) +" is not supported by" +
 						" account number "+formData.get(GRANT_ACCOUNT) + ".\n");
 			}
 			if(grantInfo.get(GRANT_FIELDS.ACCOUNT_BALANCE) < formData.get(GRANT_AMOUNT_TO_CHARGE))
 				throw new Exception("Total reimbursement is more than the grant amount.\n");
-			}
 		}
 	}
-
 }
+
+
