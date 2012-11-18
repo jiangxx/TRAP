@@ -15,6 +15,7 @@ import edu.umn.se.trap.TravelFormProcessorIntf.FORM_STATUS;
  */
 public class FormDB 
 {
+	
 	public static Integer genfid = 0;
 	public static String currentUser;
 	
