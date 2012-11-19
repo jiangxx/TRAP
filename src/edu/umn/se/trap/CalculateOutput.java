@@ -1,9 +1,7 @@
 package edu.umn.se.trap;
 
 import java.util.Map;
-import java.util.List;
 import edu.umn.se.trap.TravelFormProcessorIntf;
-import edu.umn.se.trap.db.KeyNotFoundException;
 
 public class CalculateOutput 
 {
@@ -23,25 +21,25 @@ public class CalculateOutput
 		formData = intf.getSavedFormData(formId);
 		dayTotal = 0; transportationTotal = 0; otherTotal = 0; totalReimbursement = 0;
 		
-		for(i=0;i<formData.get(NUM_DAYS);i++)
+		for(i=0;i<Integer.parseInt(formData.get("NUM_DAYS"));i++)
 		{
 			day = "DAY" + i + "_TOTAL";
 			dayTotal += Double.parseDouble(formData.get(day));
 			day = null;
 		}
-		for(i=0;i<formData.get(NUM_TRANSPORTATION);i++)
+		for(i=0;i<Integer.parseInt(formData.get("NUM_TRANSPORTATION"));i++)
 		{
 			transportation = "TRANSPORTATION" + i + "_TOTAL";
 			transportationTotal += Double.parseDouble(formData.get(transportation));
 			transportation = null;
 		}
-		for(i=0;i<formData.get(NUM_OTHER_EXPENSES);i++)
+		for(i=0;i<Integer.parseInt(formData.get("NUM_OTHER_EXPENSES"));i++)
 		{
 			other = "OTHER" + i + "_TOTAL";
 			otherTotal += Double.parseDouble(formData.get(other));
 			other = null;
 		}
 		totalReimbursement = dayTotal + transportationTotal + otherTotal;
-		formData.put(TOTAL_REIMBURSEMENT, totalReimbursement);	
+		formData.put("TOTAL_REIMBURSEMENT", Double.toString(totalReimbursement));	
 	}
 }
