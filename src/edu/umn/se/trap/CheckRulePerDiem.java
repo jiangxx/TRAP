@@ -6,8 +6,6 @@ import edu.umn.se.trap.TravelFormProcessorIntf;
 import edu.umn.se.trap.db.PerDiemDB;
 import edu.umn.se.trap.db.PerDiemDB.RATE_FIELDS;
 import edu.umn.se.trap.db.CurrencyDB;
-import edu.umn.se.trap.db.CurrencyDB.CURRENCY_FIELDS;
-import edu.umn.se.trap.db.KeyNotFoundException;
 
 public class CheckRulePerDiem 
 {
@@ -41,7 +39,7 @@ public class CheckRulePerDiem
 				if(Double.parseDouble(formData.get("DAY"+i+"_INCIDENTAL_AMOUNT")) > perDiemInfo.get(RATE_FIELDS.INCIDENTAL_CEILING.ordinal()))
 				{
 					throw new Exception("Incidental Amount of day "+ formData.get("DAY"+i+"_DATE") +" is more than the ceiling.\n " +
-							"Please input less than $"+formData.get("DAY_INCIDENTAL_AMOUNT")+".\n");
+							"Please input less than $"+formData.get("DAY"+i+"_INCIDENTAL_AMOUNT")+".\n");
 				}
 			}
 			
@@ -59,50 +57,53 @@ public class CheckRulePerDiem
 					perDiemInfo = perDiem.getInternationalPerDiem(formData.get("DAY"+i+"_INCIDENTAL_COUNTRY"));
 				}
 				
-				if(formData.get("DAY"+i+"_INCIDENTAL_AMOUNT") * currencyInfo.get(CURRENCY_FIELDS.CURRENCY.ordinal()) > perDiemInfo.get(RATE_FIELDS.INCIDENTAL_CEILING.ordinal()))
+				if(Double.parseDouble(formData.get("DAY"+i+"_INCIDENTAL_AMOUNT")) * currencyInfo > perDiemInfo.get(RATE_FIELDS.INCIDENTAL_CEILING.ordinal()))
 				{
-					throw new Exception(formData.get(DAY) +" Amount of incidental is more than the ceiling.\n");
+					throw new Exception("Incidental Amount of day "+ formData.get("DAY"+i+"_DATE") +" is more than the ceiling.\n " +
+							"Please input less than $"+formData.get("DAY"+i+"_INCIDENTAL_AMOUNT")+".\n");
 				}
 			}
 	}
 		
-	public void checkLodgingPerDiem(Integer formId)
+	public void checkLodgingPerDiem(Integer formId) throws Exception
 	{
 		formData = intf.getSavedFormData(formId);
 		//Gets Domestic Lodging Per Diem
-		if(formData.get(DAY_LODGING_COUNTRY) == "united states")
+		if(formData.get("DAY"+i+"_LODGING_COUNTRY") == "united states")
 		{
-			if(formData.get(DAY_LODGING_STATE) != null)
+			if(formData.get("DAY"+i+"_LODGING_STATE") != null)
 			{
-				if(formData.get(DAY_LODGING_CITY) != null)
+				if(formData.get("DAY"+i+"_LODGING_CITY") != null)
 				{
-					perDiemInfo = perDiem.getDomesticPerDiem(formData.get(DAY_LODGING_CITY), formData.get(DAY_LODGING_STATE));
+					perDiemInfo = perDiem.getDomesticPerDiem(formData.get("DAY"+i+"_LODGING_CITY"), formData.get("DAY"+i+"_LODGING_STATE"));
 				}
 				else
 				{
-					perDiemInfo = perDiem.getDomesticPerDiem(formData.get(DAY_LODGING_STATE));
+					perDiemInfo = perDiem.getDomesticPerDiem(formData.get("DAY"+i+"_LODGING_STATE"));
 				}
 			}
-			if(formData.get(DAY_LODGING_AMOUNT) > perDiemInfo.get(RATE_FIELDS.LODGING_CEILING.ordinal()))
+			if(Double.parseDouble(formData.get("DAY"+i+"_LODGING_AMOUNT")) > perDiemInfo.get(RATE_FIELDS.LODGING_CEILING.ordinal()))
 			{
-				throw new Exception(formData.get(DAY) +" Amount of lodging is more than the ceiling.\n");
+				throw new Exception("Lodging Amount of day "+ formData.get("DAY"+i+"_DATE") +" is more than the ceiling.\n " +
+						"Please input less than $"+formData.get("DAY"+i+"_LODGING_AMOUNT")+".\n");
 			}
 		//Gets International Lodging Per Diem
 		}
 		else
 		{
-			if(formData.get(DAY_LODGING_CITY) != null)
+			if(formData.get("DAY"+i+"_LODGING_CITY") != null)
 			{
-				perDiemInfo = perDiem.getInternationalPerDiem(formData.get(DAY_LODGING_CITY), formData.get(DAY_LODGING_COUNTRY));
-				currencyInfo = currency.getConversion(formData.get(DAY_LODGING_CURRENCY), date);
+				perDiemInfo = perDiem.getInternationalPerDiem(formData.get("DAY"+i+"_LODGING_CITY"), formData.get("DAY"+i+"_LODGING_COUNTRY"));
+				currencyInfo = currency.getConversion(formData.get("DAY"+i+"_LODGING_CURRENCY"), "DAY"+i+"_DATE");
 			}
 			else
 			{
-				perDiemInfo = perDiem.getInternationalPerDiem(formData.get(DAY_LODGING_COUNTRY));
+				perDiemInfo = perDiem.getInternationalPerDiem(formData.get("DAY"+i+"_LODGING_COUNTRY"));
 			}
-			if(formData.get(DAY_LODGING_AMOUNT) * currencyInfo.get(CURRENCY_FIELDS.CURRENCY.ordinal()) > perDiemInfo.get(RATE_FIELDS.LODGING_CEILING.ordinal()))
+			if(Double.parseDouble(formData.get("DAY"+i+"_LODGING_AMOUNT")) * currencyInfo > perDiemInfo.get(RATE_FIELDS.LODGING_CEILING.ordinal()))
 			{
-				throw new Exception(formData.get(DAY) +" Amount of lodging is more than the ceiling.\n");
+				throw new Exception("Lodging Amount of day "+ formData.get("DAY"+i+"_DATE") +" is more than the ceiling.\n " +
+						"Please input less than $"+formData.get("DAY"+i+"_LODGING_AMOUNT")+".\n");
 			}
 		}
 	}
